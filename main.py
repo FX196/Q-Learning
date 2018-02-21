@@ -91,6 +91,7 @@ def train(model, env):
                 frame_old = env.reset()
                 state = process_frames(frame_old, frame_old)
                 done = False
+                
         minibatch = random.sample(D, mb_size)
         inputs_shape = mb_size
         inputs = np.zeros(inputs_shape)
