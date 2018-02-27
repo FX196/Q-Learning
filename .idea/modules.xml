@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/GANADQL.iml" filepath="$PROJECT_DIR$/.idea/GANADQL.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/Q-Learning.iml" filepath="$PROJECT_DIR$/.idea/Q-Learning.iml" />
     </modules>
   </component>
 </project>
