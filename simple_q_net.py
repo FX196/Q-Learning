@@ -8,6 +8,7 @@ import sys
 
 #builds model with several dense layers
 #adding option of convolutional layers for input to accomodate atari games
+# noinspection PyShadowingNames
 def build_model(with_conv=False):
     model = Sequential()
     model.add(Dense(20, input_shape=(2,) + env.observation_space.shape, init='uniform', activation='relu'))
@@ -21,6 +22,7 @@ def build_model(with_conv=False):
     return model
 
 #use built model to learn in set environment
+# noinspection PyPep8Naming,PyPep8Naming,PyShadowingNames,PyShadowingNames
 def observe_and_learn(model):
     #starting observation
     observation = env.reset()
@@ -76,6 +78,7 @@ def observe_and_learn(model):
 
 #play/evaluate the model
 #unlike observation and training, there is no probability of taking a random action while evaluating the model
+# noinspection PyPep8Naming,PyShadowingNames
 def play(model):
     observation = env.reset()
     obs = np.expand_dims(observation, axis=0)
@@ -103,7 +106,7 @@ if __name__ == '__main__':
     mb_size = 50
     model=build_model()
     mode=input("Input mode: ")
-    if(mode.upper()=='TRAIN'):
+    if mode.upper()== 'TRAIN':
         for i in range(10):
             for j in range(20):
                 observe_and_learn(model)
@@ -118,7 +121,7 @@ if __name__ == '__main__':
             json_file.write(model_json)
         model.save_weights("model.h5")
         print("Saved Model")
-    elif(mode.upper()=="Play"):
+    elif mode.upper()== "Play":
         model=build_model()
         model.load_weights('model.h5')
         for i in range(20):

@@ -106,6 +106,7 @@ def train(model, env):
             
             inputs[i:i+1] = np.expand_dims(state, axis=0)
             targets[i] = model.predict(state)
+            # noinspection PyPep8Naming
             Q_sa = model.predict(state_new)
             
             if done:
