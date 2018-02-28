@@ -10,7 +10,6 @@ class Game(object):
         self.score = 0
         self.game_over = False
 
-
     def display(self):
         print("Score: %d" % self.score)
         print("-"*21)
@@ -66,9 +65,31 @@ def new_cell(data):
         return False
 
 
-# process action
-# returns: True if action legal, False if not legal
+# reduces row i.e. move and merge cells to the left
+# returns: list representing reduced row
+def reduce(row):
+    ind = 0
+    row_length = len(row)
+    while ind < len(row)-1:
+        if row[ind+1] == EMPTY_CELL:
+            row.pop(ind+1)
+        elif row[ind] == row[ind+1]:
+            row[ind] += row.pop(ind+1)
+            ind += 1
+        else:
+            ind += 1
+    while len(row) < row_length:
+        row.append(EMPTY_CELL)
+    return row
 
+
+# transposes board to simplify step process
+# returns: 2D list representing transposed board
+def transpose(board):
+    for i in range(len(board)):
+        for j in range(i):
+            board[i][j], board[j][i] = board[j][i], board[i][j]
+    return board
 
 
 if __name__ == "__main__":
