@@ -18,7 +18,10 @@ class Game(object):
         for row in range(self.size):
             print("|", end="")
             for col in range(self.size):
-                print("{0:{width}}".format(self.board[row][col], width=4), end="|")
+                if self.board[row][col] != 0:
+                    print("{0:{width}}".format(self.board[row][col], width=4), end="|")
+                else:
+                    print("    ", end="|")
             print()
             print("-" * 21)
 
