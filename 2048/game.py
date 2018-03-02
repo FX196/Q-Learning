@@ -1,7 +1,7 @@
-import random
 import copy
+import random
 
-EMPTY_CELL = "    "
+EMPTY_CELL = 0
 
 
 class Game(object):
@@ -33,7 +33,10 @@ class Game(object):
                     empty_cells.append((i, j))
         if empty_cells:
             r, c = empty_cells[random.randint(0, len(empty_cells) - 1)]
-            board[r][c] = random.randint(1, 2) * 2
+            if random.random()<0.2:
+                board[r][c] = 4
+            else:
+                board[r][c] = 2
             return True
         else:
             return False
@@ -41,7 +44,7 @@ class Game(object):
     def check_game_over(self):
         temp_board = copy.deepcopy(self.board)
         i = 0
-        while not self.step(str(i)) and i < 3:
+        while not self.step(str(i))[3] and i < 3:
             i += 1
             self.board = copy.deepcopy(temp_board)
         self.board = temp_board
@@ -51,6 +54,8 @@ class Game(object):
     # returns: True if move legal, false if otherwise
     def step(self, action, checking = False):
         temp_board = []
+        score = copy.deepcopy(self.score)
+        action=str(action)
         if action == "0":
             for col in transpose(self.board):
                 temp_board.append(self.reduce(col))
@@ -67,7 +72,7 @@ class Game(object):
                 temp_board.append(self.reduce(row[::-1])[::-1])
         else:
             print("Action invalid")
-            return False
+            return (self.board, -1, self.game_over, False)
         if temp_board != self.board:
             self.board = temp_board
             self.new_cell()
@@ -80,8 +85,8 @@ class Game(object):
                 self.game_over = self.check_game_over()
             if not checking:
                 self.display()
-            return True
-        return False
+            return (self.board, self.score-score, self.game_over, True)
+        return (self.board, -1, self.game_over, False)
 
     # reduces row i.e. move and merge cells to the left
     # returns: list representing reduced row

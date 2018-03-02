@@ -1,10 +1,11 @@
-import gym
-from keras.models import Sequential
-from keras.layers import Dense, Flatten, Dropout
-from keras.models import model_from_json
-import numpy as np
 import random
 import sys
+
+import gym
+import numpy as np
+from keras.layers import Dense, Flatten
+from keras.models import Sequential
+
 
 #builds model with several dense layers
 #adding option of convolutional layers for input to accomodate atari games
@@ -30,8 +31,8 @@ def observe_and_learn(model):
     state = np.stack((obs,obs), axis=1)
     done = False
 
-    #observe for a set amount of timesteps and add the observations to memory
-    #uses epsilon-greedy with epsilon annealed over time
+    # observe for a set amount of timesteps and add the observations to memory
+    # uses epsilon-greedy with epsilon annealed over time
     for t in range(observetime):
         if np.random.rand() <= epsilon:
             action = env.action_space.sample()
@@ -93,7 +94,7 @@ def play(model):
         obs = np.expand_dims(observation, axis=0)
         state = np.append(np.expand_dims(obs, axis=0), state[:, :1, :], axis=1)    
         tot_reward += reward
-    print('Game ended! Total reward: {}'.format(reward))
+    print('Game ended! Total reward: {}'.format(tot_reward))
     
 if __name__ == '__main__':
     episode=0
@@ -121,7 +122,7 @@ if __name__ == '__main__':
             json_file.write(model_json)
         model.save_weights("model.h5")
         print("Saved Model")
-    elif mode.upper()== "Play":
+    elif mode.upper() == "Play":
         model=build_model()
         model.load_weights('model.h5')
         for i in range(20):
