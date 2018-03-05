@@ -6,7 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="46c24f4e-820a-4c1b-a3bc-ec1b52b5e823" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/2048/game.py" afterPath="$PROJECT_DIR$/2048/game.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -475,7 +474,14 @@
       <option name="project" value="LOCAL" />
       <updated>1519971298810</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="modified display function">
+      <created>1519973133449</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1519973133449</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -539,7 +545,8 @@
     <MESSAGE value="finished game without gui" />
     <MESSAGE value="refresh" />
     <MESSAGE value="finished basic structure" />
-    <option name="LAST_COMMIT_MESSAGE" value="finished basic structure" />
+    <MESSAGE value="modified display function" />
+    <option name="LAST_COMMIT_MESSAGE" value="modified display function" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
