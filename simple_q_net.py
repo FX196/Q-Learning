@@ -125,7 +125,7 @@ if __name__ == '__main__':
             json_file.write(model_json)
         model.save_weights("model.h5")
         print("Saved Model")
-    elif mode.upper() == "Play":
+    elif mode.upper() == "PLAY":
         model = build_model()
         model.load_weights('model.h5')
         for i in range(20):
