@@ -15,4 +15,5 @@ if __name__ == "__main__":
     for i_episode in range(20):
         model.observe(env)
         model.train()
+    print("Playing")
     model.play(env)

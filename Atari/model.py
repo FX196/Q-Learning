@@ -3,6 +3,7 @@ import random
 import numpy as np
 from keras import Sequential
 from keras.layers import Conv2D, Dense, Dropout, Flatten
+import time
 
 # hyperparameters
 observe_time = 1000
@@ -15,7 +16,7 @@ mb_size = 100
 class Model:
     def __init__(self, action_space):
         self.model = Sequential()
-        self.model.add(Conv2D(input_shape=(210, 160, 3), filters=32, kernel_size=(8, 8), strides=4, activation="relu"))
+        self.model.add(Conv2D(input_shape=(210, 160, 6), filters=32, kernel_size=(8, 8), strides=4, activation="relu"))
         self.model.add(Conv2D(filters=64, kernel_size=(4, 4), strides=2, activation="relu"))
         self.model.add(Flatten())
         self.model.add(Dense(units=256, activation="relu"))
@@ -37,7 +38,7 @@ class Model:
     def observe(self, env, with_graphics=False):
         observation = env.reset()
         obs = np.expand_dims(observation, axis=0)
-        state = np.stack((obs, obs), axis=1)
+        state = np.append(obs, obs, axis=3)
         done = False
 
         # observe for a set amount of timesteps and add the observations to memory
@@ -50,13 +51,13 @@ class Model:
                 action = np.argmax(Q)
             observation_new, reward, done, info = env.step(action)
             obs_new = np.expand_dims(observation_new, axis=0)
-            state_new = np.append(np.expand_dims(obs_new, axis=0), state[:, :1, :], axis=1)
+            state_new = np.append(obs_new, state[:, :, :, :3], axis=3)
             self.memory.append((state, action, reward, state_new, done))
             state = state_new
             if done:
                 env.reset()
                 obs = np.expand_dims(observation, axis=0)
-                state = np.stack((obs, obs), axis=1)
+                state = np.append(obs, obs, axis=3)
 
         self.epsilon *= 0.9
         # finish observation
@@ -83,16 +84,17 @@ class Model:
             else:
                 targets[i, action] = reward + gamma * np.max(Q_sa)
 
-            loss = self.model.train_on_batch(inputs, targets)
-            print("\rEpisode = %s,Loss = %.5f" % (str(self.episode), loss))
+        loss = self.model.train_on_batch(inputs, targets)
+        print("\rEpisode = %s,Loss = %.5f" % (str(self.episode), loss))
+        self.episode += 1
 
-        if self.memory >= max_memory_size:
+        if len(self.memory) >= max_memory_size:
             self.memory = self.memory[-max_memory_size:]
 
     def play(self, env):
         observation = env.reset()
         obs = np.expand_dims(observation, axis=0)
-        state = np.stack((obs, obs), axis=1)
+        state = np.append(obs, obs, axis=3)
         done = False
         tot_reward = 0.0
 
@@ -101,7 +103,8 @@ class Model:
             Q = self.model.predict(state)
             action = np.argmax(Q)
             observation, reward, done, info = env.step(action)
+            print(action)
             obs = np.expand_dims(observation, axis=0)
-            state = np.append(np.expand_dims(obs, axis=0), state[:, :1, :], axis=1)
+            state = np.append(obs, state[:, :, :, :3], axis=3)
             tot_reward += reward
         print('Game ended! Total reward: {}'.format(tot_reward))
